@@ -2,6 +2,7 @@ syntax = "proto3";
 package agent_service;
 option go_package = "github.com/k8sdeploy/protobufs/generated/agent_service/v1";
 
+// Create
 message CreateAgentRequest {
   string company_id = 1;
   string agent_name = 2;
@@ -16,6 +17,18 @@ message CreateAgentResponse {
   optional string status = 99;
 }
 
+// Validate
+message ValidateAgentRequest {
+  string id = 1;
+  string secret = 2;
+}
+message ValidateAgentResponse {
+  bool valid = 1;
+  optional string status = 99;
+}
+
+
 service AgentService {
   rpc CreateAgent(CreateAgentRequest) returns (CreateAgentResponse);
+  rpc ValidateAgent(ValidateAgentRequest) returns (ValidateAgentResponse);
 }
