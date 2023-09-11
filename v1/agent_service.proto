@@ -42,7 +42,6 @@ message RegisterAgentResponse {
   optional string status = 99;
 }
 
-
 service AgentService {
   rpc CreateAgent(CreateAgentRequest) returns (CreateAgentResponse);
   rpc ValidateAgent(ValidateAgentRequest) returns (ValidateAgentResponse);
