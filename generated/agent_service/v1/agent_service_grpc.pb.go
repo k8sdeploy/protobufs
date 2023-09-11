@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AgentServiceClient interface {
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*CreateAgentResponse, error)
 	ValidateAgent(ctx context.Context, in *ValidateAgentRequest, opts ...grpc.CallOption) (*ValidateAgentResponse, error)
+	RegisterAgent(ctx context.Context, in *RegisterAgentRequest, opts ...grpc.CallOption) (*RegisterAgentResponse, error)
 }
 
 type agentServiceClient struct {
@@ -52,12 +53,22 @@ func (c *agentServiceClient) ValidateAgent(ctx context.Context, in *ValidateAgen
 	return out, nil
 }
 
+func (c *agentServiceClient) RegisterAgent(ctx context.Context, in *RegisterAgentRequest, opts ...grpc.CallOption) (*RegisterAgentResponse, error) {
+	out := new(RegisterAgentResponse)
+	err := c.cc.Invoke(ctx, "/agent_service.AgentService/RegisterAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AgentServiceServer is the server API for AgentService service.
 // All implementations must embed UnimplementedAgentServiceServer
 // for forward compatibility
 type AgentServiceServer interface {
 	CreateAgent(context.Context, *CreateAgentRequest) (*CreateAgentResponse, error)
 	ValidateAgent(context.Context, *ValidateAgentRequest) (*ValidateAgentResponse, error)
+	RegisterAgent(context.Context, *RegisterAgentRequest) (*RegisterAgentResponse, error)
 	mustEmbedUnimplementedAgentServiceServer()
 }
 
@@ -70,6 +81,9 @@ func (UnimplementedAgentServiceServer) CreateAgent(context.Context, *CreateAgent
 }
 func (UnimplementedAgentServiceServer) ValidateAgent(context.Context, *ValidateAgentRequest) (*ValidateAgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateAgent not implemented")
+}
+func (UnimplementedAgentServiceServer) RegisterAgent(context.Context, *RegisterAgentRequest) (*RegisterAgentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterAgent not implemented")
 }
 func (UnimplementedAgentServiceServer) mustEmbedUnimplementedAgentServiceServer() {}
 
@@ -120,6 +134,24 @@ func _AgentService_ValidateAgent_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AgentService_RegisterAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterAgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AgentServiceServer).RegisterAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/agent_service.AgentService/RegisterAgent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).RegisterAgent(ctx, req.(*RegisterAgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AgentService_ServiceDesc is the grpc.ServiceDesc for AgentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +166,10 @@ var AgentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateAgent",
 			Handler:    _AgentService_ValidateAgent_Handler,
+		},
+		{
+			MethodName: "RegisterAgent",
+			Handler:    _AgentService_RegisterAgent_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
