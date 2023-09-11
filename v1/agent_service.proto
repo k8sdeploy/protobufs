@@ -27,8 +27,24 @@ message ValidateAgentResponse {
   optional string status = 99;
 }
 
+// Register
+message RegisterAgentRequest {
+  string id = 1;
+  bool self_update = 2;
+}
+message RegisterAgentResponse {
+  string channel_id = 1;
+  string channel_secret = 2;
+
+  optional string self_updated_id = 10;
+  optional string self_update_secret = 11;
+
+  optional string status = 99;
+}
+
 
 service AgentService {
   rpc CreateAgent(CreateAgentRequest) returns (CreateAgentResponse);
   rpc ValidateAgent(ValidateAgentRequest) returns (ValidateAgentResponse);
+  rpc RegisterAgent(RegisterAgentRequest) returns (RegisterAgentResponse);
 }
