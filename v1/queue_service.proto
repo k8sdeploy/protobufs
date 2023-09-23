@@ -1,0 +1,48 @@
+syntax = "proto3";
+package queue_service;
+option go_package = "github.com/k8sdeploy/protobufs/generated/queue_service/v1";
+
+// CreateQueueAccount
+message CreateQueueAccountRequest {
+  string company_id = 1;
+  string agent_id = 2;
+}
+
+message CreateQueueAccountResponse {
+  string queue_account_id = 1;
+  string queue_account_secret = 2;
+
+  optional string status = 99;
+}
+
+// DeleteQueueAccount
+message DeleteQueueAccountRequest {
+  string company_id = 1;
+  string agent_id = 2;
+}
+
+message DeleteQueueAccountResponse {
+  bool success = 1;
+
+  optional string status = 99;
+}
+
+// GetQueueAccount
+message GetQueueAccountRequest {
+  string company_id = 1;
+  string agent_id = 2;
+}
+
+message GetQueueAccountResponse {
+  string queue_account_id = 1;
+  string queue_account_secret = 2;
+
+  optional string status = 99;
+}
+
+// Service
+service QueueService {
+  rpc CreateQueueAccount(CreateQueueAccountRequest) returns (CreateQueueAccountResponse);
+  rpc DeleteQueueAccount(DeleteQueueAccountRequest) returns (DeleteQueueAccountResponse);
+  rpc GetQueueAccount(GetQueueAccountRequest) returns (GetQueueAccountResponse);
+}
