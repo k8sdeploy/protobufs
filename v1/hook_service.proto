@@ -16,5 +16,5 @@ message UpdateDeploymentResponse {
 
 service HookService {
   rpc UpdateDeployment(UpdateDeploymentRequest) returns (UpdateDeploymentResponse);
-  rpc UpdateDevDeployment(UpdateDeploymentRequest"") returns (UpdateDeploymentResponse);
+  rpc UpdateDevDeployment(UpdateDeploymentRequest) returns (UpdateDeploymentResponse);
 }
