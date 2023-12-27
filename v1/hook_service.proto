@@ -1,0 +1,20 @@
+syntax = "proto3";
+package hook_service;
+option go_package = "github.com/k8sdeploy/protobufs/generated/hook_service/v1";
+
+message UpdateDeploymentRequest {
+  string name = 1;
+  string namespace = 2;
+  string image = 3;
+  string tag = 4;
+  string hash = 5;
+}
+
+message UpdateDeploymentResponse {
+  string status = 1;
+}
+
+service HookService {
+  rpc UpdateDeployment(UpdateDeploymentRequest) returns (UpdateDeploymentResponse);
+  rpc UpdateDevDeployment(UpdateDeploymentRequest"") returns (UpdateDeploymentResponse);
+}
