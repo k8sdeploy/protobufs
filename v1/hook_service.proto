@@ -1,6 +1,6 @@
 syntax = "proto3";
 package hook_service;
-option go_package = "github.com/k8sdeploy/protobufs/generated/hook_service/v1";
+option go_package = "./v1";
 
 message UpdateDeploymentRequest {
   string name = 1;

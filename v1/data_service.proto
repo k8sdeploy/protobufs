@@ -1,0 +1,173 @@
+syntax = "proto3";
+package data_service;
+option go_package = "./v1";
+
+// Store Response
+message StoreResponse {
+  string message = 1;
+
+  optional string error_message = 99;
+}
+
+// Namespaces
+message StoreNamespaceRequest {
+  string company_id = 1;
+  string name = 2;
+}
+message GetNamespacesRequest {
+  string company_id = 1;
+}
+message GetNamespacesResponse {
+  repeated string namespaces = 1;
+  optional string error_message = 99;
+}
+
+// Pods
+message Pod {
+  string name = 1;
+  string status = 2;
+  string image = 3;
+}
+message StorePodsRequest {
+  string company_id = 1;
+  string namespace = 2;
+
+  repeated Pod pods = 3;
+}
+message GetPodsRequest {
+  string company_id = 1;
+  string namespace = 2;
+}
+message GetPodsResponse {
+  repeated Pod pods = 1;
+  optional string error_message = 99;
+}
+
+// Deployments
+message Deployment {
+  string name = 1;
+  string image = 2;
+  int32 ready_pods = 3;
+  int32 total_pods = 4;
+}
+message StoreDeploymentRequest {
+  string company_id = 1;
+  string namespace = 2;
+
+  repeated Deployment deployments = 3;
+}
+message GetDeploymentsRequest {
+  string company_id = 1;
+  string namespace = 2;
+}
+message GetDeploymentsResponse {
+  repeated Deployment deployments = 1;
+  optional string error_message = 99;
+}
+
+// ReplicaSets
+message ReplicaSet {
+  string name = 1;
+  string image = 2;
+  int32 ready_pods = 3;
+  int32 total_pods = 4;
+}
+message StoreReplicaSetsRequest {
+  string company_id = 1;
+  string namespace = 2;
+
+  repeated ReplicaSet replica_sets = 3;
+}
+message GetReplicaSetsRequest {
+  string company_id = 1;
+  string namespace = 2;
+}
+message GetReplicaSetsResponse {
+  repeated ReplicaSet replica_sets = 1;
+  optional string error_message = 99;
+}
+
+// Services
+message Service {
+  string name = 1;
+  string type = 2;
+  string cluster_ip = 3;
+  repeated string internal_endpoints = 4;
+  repeated string external_endpoints = 5;
+}
+message StoreServicesRequest {
+  string company_id = 1;
+  string namespace = 2;
+
+  repeated Service services = 3;
+}
+message GetServicesRequest {
+  string company_id = 1;
+  string namespace = 2;
+}
+message GetServicesResponse {
+  repeated Service services = 1;
+  optional string error_message = 99;
+}
+
+// Ingresses
+message Ingress {
+  string name = 1;
+  repeated string hosts = 2;
+  repeated string endpoints = 3;
+}
+message StoreIngressesRequest {
+  string company_id = 1;
+  string namespace = 2;
+
+  repeated Ingress ingresses = 3;
+}
+message GetIngressesRequest {
+  string company_id = 1;
+  string namespace = 2;
+}
+message GetIngressesResponse {
+  repeated Ingress ingresses = 1;
+  optional string error_message = 99;
+}
+
+
+// Jobs
+message Job {
+  string name = 1;
+  string image = 2;
+  int32 total_pods = 3;
+  int32 ready_pods = 4;
+}
+message StoreJobsRequest {
+  string company_id = 1;
+  string namespace = 2;
+
+  repeated Job jobs = 3;
+}
+message GetJobsRequest {
+  string company_id = 1;
+  string namespace = 2;
+}
+message GetJobsResponse {
+  repeated Job jobs = 1;
+  optional string error_message = 99;
+}
+
+service StoreService {
+  rpc StorePods(StorePodsRequest) returns (StoreResponse);
+  rpc StoreDeployments(StoreDeploymentRequest) returns (StoreResponse);
+  rpc StoreReplicaSets(StoreReplicaSetsRequest) returns (StoreResponse);
+  rpc StoreServices(StoreServicesRequest) returns (StoreResponse);
+  rpc StoreIngresses(StoreIngressesRequest) returns (StoreResponse);
+  rpc StoreJobs(StoreJobsRequest) returns (StoreResponse);
+  rpc StoreNamespace(StoreNamespaceRequest) returns (StoreResponse);
+
+  rpc GetPods(GetPodsRequest) returns (GetPodsResponse);
+  rpc GetDeployments(GetDeploymentsRequest) returns (GetDeploymentsResponse);
+  rpc GetReplicaSets(GetReplicaSetsRequest) returns (GetReplicaSetsResponse);
+  rpc GetServices(GetServicesRequest) returns (GetServicesResponse);
+  rpc GetIngresses(GetIngressesRequest) returns (GetIngressesResponse);
+  rpc GetJobs(GetJobsRequest) returns (GetJobsResponse);
+  rpc GetNamespaces(GetNamespacesRequest) returns (GetNamespacesResponse);
+}
