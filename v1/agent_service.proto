@@ -1,6 +1,6 @@
 syntax = "proto3";
 package agent_service;
-option go_package = "github.com/k8sdeploy/protobufs/generated/agent_service/v1";
+option go_package = "./v1";
 
 // Create
 message CreateAgentRequest {
